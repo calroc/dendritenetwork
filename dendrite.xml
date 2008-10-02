@@ -28,11 +28,11 @@ function onLoadGifts(data) {
 function loadViewer() {
     document.getElementById('goba').innerHTML = 'start';
     var req = opensocial.newDataRequest();
-//    req.add(
-//        req.newFetchPersonRequest(opensocial.IdSpec.PersonId.VIEWER),
-//        'viewer'
-//        );
-//    req.send(onLoadViewer);
+    req.add(
+        req.newFetchPersonRequest(opensocial.IdSpec.PersonId.VIEWER),
+        'viewer'
+        );
+    req.send(onLoadViewer);
     document.getElementById('goba').innerHTML = 'sent';
 }
 
@@ -41,7 +41,7 @@ function onLoadViewer(data) {
     var display_name = viewer.getDisplayName() 
     var emails = viewer.getField(opensocial.Person.Field.EMAILS)
     var email = emails.getField(opensocial.Email.Field.ADDRESS);
-//    document.getElementById('email').innerHTML = email;
+    document.getElementById('email').innerHTML = email;
 }
 
 
@@ -64,7 +64,7 @@ div#goba {
 </style>
 
 <div id='main'>
-oo<div id='goba'></div>oo
+oo<div id='goba'></div>o<div id='email'></div>o
 Your Cards:
 <div id='cards'></div>
 <div id='bananas'></div>
