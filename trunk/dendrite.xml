@@ -56,7 +56,7 @@ gadgets.util.registerOnLoadHandler(init);
 
 <style type="text/css">
 
-div {
+div#goba {
 	border: 1px solid black;
 	background-color: #a9f9a9;
 }
