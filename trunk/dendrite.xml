@@ -5,8 +5,6 @@
 <script src="http://www.google.com/jsapi"></script>
 <script type="text/javascript">
 
-google.load("mootools", "1.11");
-
 var BASE_URL = 'http://1.latest.xerblin.appspot.com'
 
 var FETCH_TEXT = {};
@@ -50,60 +48,21 @@ function init() {
     loadCards();
 }
 
-window.addEvent('domready', function(){
-
-	$('myOtherElement').addEvents({
-
-		'mouseenter': function(){
-			// Always sets the duration of the tween to 1000 ms and a bouncing transition
-			// And then tweens the height of the element
-			this.set('tween', {
-				duration: 1000,
-				transition: Fx.Transitions.Bounce.easeOut // This could have been also 'bounce:out'
-			}).tween('height', '150px');
-		},
-
-		'mouseleave': function(){
-			// Resets the tween and changes the element back to its original size
-			this.set('tween', {}).tween('height', '20px');
-		}
-	});
-});
-
 gadgets.util.registerOnLoadHandler(init);
 
 </script>
 
 <style type="text/css">
 
-div#myOtherElement {
-	width: 200px;
-	height: 20px;
-	overflow: hidden;
+div {
 	border: 1px solid black;
-	background-color: #f9f9f9;
+	background-color: #a9f9a9;
 }
 
-div#myOtherElement span, div#myOtherElement a {
-	display: block;
-	padding: 0 3px;
-}
-
-div#myOtherElement a:hover {
-	background: #f5f5f5;
-}
 </style>
 
 <div id='main'>
 oo<div id='goba'></div>oo
-	<div id="myOtherElement">
-		<span><strong>Menu</strong></span>
-		<div>
-			<a href="#">Menuelement 1</a>
-			<a href="#">Menuelement 2</a>
-			<a href="#">Menuelement 3</a>
-		</div>
-	</div>
 Your Cards:
 <div id='cards'></div>
 <div id='bananas'></div>
