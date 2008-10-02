@@ -37,11 +37,13 @@ function loadViewer() {
 }
 
 function onLoadViewer(data) {
+    document.getElementById('email').innerHTML = "display_name";
     var viewer = data.get('viewer').getData();
     var display_name = viewer.getDisplayName() 
+    document.getElementById('email').innerHTML = display_name;
     var emails = viewer.getField(opensocial.Person.Field.EMAILS)
     var email = emails.getField(opensocial.Email.Field.ADDRESS);
-    document.getElementById('email').innerHTML = email;
+//    document.getElementById('email').innerHTML = email;
 }
 
 
