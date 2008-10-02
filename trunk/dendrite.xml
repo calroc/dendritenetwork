@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+<ModulePrefs title="Dendrite Network Demo" />
+<Content type="html"><![CDATA[
+<script type="text/javascript">
+
+var BASE_URL = 'http://1.latest.xerblin.appspot.com'
+
+var FETCH_TEXT = {};
+FETCH_TEXT[gadgets.io.RequestParameters.CONTENT_TYPE] = 
+           gadgets.io.ContentType.TEXT;
+
+function loadCards() {
+    document.getElementById('bananas').innerHTML = 'start';
+    var url = BASE_URL + '/cards';
+    gadgets.io.makeRequest(url, onLoadGifts, FETCH_TEXT);
+    document.getElementById('bananas').innerHTML = 'end';
+}
+
+function onLoadGifts(data) {
+    document.getElementById('cards').innerHTML = data.text;
+    gadgets.window.adjustHeight();
+}
+
+function loadViewer() {
+    document.getElementById('goba').innerHTML = 'start';
+//    var req = opensocial.newDataRequest();
+//    req.add(
+//        req.newFetchPersonRequest(opensocial.IdSpec.PersonId.VIEWER),
+//        'viewer'
+//        );
+//    req.send(onLoadViewer);
+//    document.getElementById('goba').innerHTML = 'sent';
+}
+
+function onLoadViewer(data) {
+    var viewer = data.get('viewer').getData();
+    var display_name = viewer.getDisplayName() 
+    var emails = viewer.getField(opensocial.Person.Field.EMAILS)
+    var email = emails.getField(opensocial.Email.Field.ADDRESS);
+//    document.getElementById('email').innerHTML = email;
+}
+
+function init() {
+    loadViewer();
+    loadCards();
+}
+
+gadgets.util.registerOnLoadHandler(init);
+
+</script>
+<div id='main'>
+oo<div id='goba'></div>oo
+Your Cards:
+<div id='cards'></div>
+<div id='bananas'></div>
+</div>
+]]></Content>
+</Module>
+
+
