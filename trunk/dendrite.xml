@@ -44,8 +44,8 @@ function onLoadViewer(data) {
     var display_name = viewer.getId(); // getDisplayName() 
     document.getElementById('email').innerHTML = display_name;
     var emails = viewer.getField(opensocial.Person.Field.EMAILS)
-    document.getElementById('email').innerHTML = emails;
-    var email = emails.getField(opensocial.Email.Field.ADDRESS);
+//    document.getElementById('email').innerHTML = emails;
+//    var email = emails.getField(opensocial.Email.Field.ADDRESS);
 //    document.getElementById('email').innerHTML = email;
 }
 
