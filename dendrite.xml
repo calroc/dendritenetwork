@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module>
-<ModulePrefs title="Dendrite Network Demo" />
+<ModulePrefs title="Dendrite Network Demo" scrolling="true">
+  <Require feature="opensocial-0.7"/>
+</ModulePrefs>
 <Content type="html"><![CDATA[
 <script src="http://www.google.com/jsapi"></script>
 <script type="text/javascript">
