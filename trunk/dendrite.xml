@@ -28,7 +28,9 @@ function onLoadGifts(data) {
 function loadViewer() {
     document.getElementById('goba').innerHTML = 'start';
     var req = opensocial.newDataRequest();
+// http://code.google.com/apis/opensocial/docs/0.7/reference/opensocial.DataRequest.html
     req.add(
+// http://code.google.com/apis/opensocial/docs/0.7/reference/opensocial.DataRequest.html#newFetchPersonRequest
         req.newFetchPersonRequest(opensocial.IdSpec.PersonId.VIEWER),
         'viewer'
         );
@@ -37,8 +39,9 @@ function loadViewer() {
 }
 
 function onLoadViewer(data) {
+// http://code.google.com/apis/opensocial/docs/0.7/reference/opensocial.Person.html
     var viewer = data.get('viewer').getData();
-    var display_name = viewer.getDisplayName() 
+    var display_name = viewer.getId(); // getDisplayName() 
     document.getElementById('email').innerHTML = display_name;
     var emails = viewer.getField(opensocial.Person.Field.EMAILS)
     document.getElementById('email').innerHTML = emails;
