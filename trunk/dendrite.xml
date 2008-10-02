@@ -2,7 +2,10 @@
 <Module>
 <ModulePrefs title="Dendrite Network Demo" />
 <Content type="html"><![CDATA[
+<script src="http://www.google.com/jsapi"></script>
 <script type="text/javascript">
+
+google.load("mootools", "1.11");
 
 var BASE_URL = 'http://1.latest.xerblin.appspot.com'
 
