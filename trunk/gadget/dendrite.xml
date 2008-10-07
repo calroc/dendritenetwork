@@ -4,19 +4,13 @@
   <Require feature="opensocial-0.7"/>
 </ModulePrefs>
 <Content type="html"><![CDATA[
+<link rel="stylesheet"
+  type="text/css"
+  href="http://dendritenetwork.googlecode.com/svn/trunk/gadget/dendrite.css" />
 <script src="http://www.google.com/jsapi"></script>
 <script type="text/javascript"
   src="http://dendritenetwork.googlecode.com/svn/trunk/gadget/dendrite.js">
 </script>
-<style type="text/css">
-
-div#status_message {
-	border: 1px solid black;
-	background-color: #a9f9a9;
-}
-
-</style>
-
 <div id="main">
 <div id="status_message"></div>
 <div id="user_display_name"></div>
