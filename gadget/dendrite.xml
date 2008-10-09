@@ -2,6 +2,7 @@
 <Module>
 <ModulePrefs title="Dendrite Network Demo" scrolling="true">
   <Require feature="opensocial-0.7"/>
+  <Require feature="minimessage"/>
 </ModulePrefs>
 <Content type="html"><![CDATA[
 <link rel="stylesheet"
@@ -12,7 +13,6 @@
   src="http://dendritenetwork.googlecode.com/svn/trunk/gadget/dendrite.js">
 </script>
 <div id="main">
-<div id="status_message"></div>
 <div id="user_display_name"></div>
 Your Cards:
 <div id="cards"></div>
