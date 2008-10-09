@@ -1,5 +1,4 @@
 
-var STATUS = "status_message";
 var VIEWER = "viewer";
 var BASE_URL = "http://1.latest.xerblin.appspot.com";
 
@@ -7,12 +6,16 @@ var FETCH_TEXT = {};
 FETCH_TEXT[gadgets.io.RequestParameters.CONTENT_TYPE] = 
            gadgets.io.ContentType.TEXT;
            
+
+var STATUS = new gadgets.MiniMessage("dendrite");
+
+           
 function tell(el, message) {
     document.getElementById(el).innerHTML = message;
 }
 
 function loadCards(vid, display_name) {
-    tell(STATUS, "Retrieving your cards...");
+    STATUS.createDismissibleMessage("Retrieving your cards...");
     var url = BASE_URL + "/cards";
     // Put in args, there must be a function for this already
     gadgets.io.makeRequest(
@@ -24,11 +27,11 @@ function loadCards(vid, display_name) {
         },
         FETCH_TEXT
         );
-    tell(STATUS, "Card request sent...");
+    STATUS.createDismissibleMessage("Card request sent...");
 }
 
 function loadViewer() {
-    tell(STATUS, "Loading your data...");
+    STATUS.createDismissibleMessage("Loading your data...");
     var req = opensocial.newDataRequest();
 // http://code.google.com/apis/opensocial/docs/0.7/reference/opensocial.DataRequest.html
     req.add(
@@ -37,11 +40,11 @@ function loadViewer() {
         VIEWER
         );
     req.send(onLoadViewer);
-    tell(STATUS, "Request for your data sent...");
+    STATUS.createDismissibleMessage("Request for your data sent...");
 }
 
 function onLoadViewer(data) {
-    tell(STATUS, "Your data request has returned.");
+    STATUS.createDismissibleMessage("Your data request has returned.");
 // http://code.google.com/apis/opensocial/docs/0.7/reference/opensocial.Person.html
     var viewer = data.get(VIEWER).getData();
     var display_name = viewer.getDisplayName();
