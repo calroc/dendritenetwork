@@ -15,23 +15,23 @@ function tell(el, message) {
 }
 
 function loadCards(vid, display_name) {
-    STATUS.createTimerMessage("Retrieving your cards...", 2);
+    STATUS.createTimerMessage("Retrieving your cards...", 3);
     var url = BASE_URL + "/cards";
     // Put in args, there must be a function for this already
     gadgets.io.makeRequest(
         url,
         function (data) {
-            STATUS.createTimerMessage("Cards loaded.", 2);
+            STATUS.createTimerMessage("Cards loaded.", 3);
             tell("cards", data.text);
             gadgets.window.adjustHeight();
         },
         FETCH_TEXT
         );
-    STATUS.createTimerMessage("Card request sent...", 2);
+    STATUS.createTimerMessage("Card request sent...", 3);
 }
 
 function loadViewer() {
-    STATUS.createTimerMessage("Loading your data...", 2);
+    STATUS.createTimerMessage("Loading your data...", 3);
     var req = opensocial.newDataRequest();
 // http://code.google.com/apis/opensocial/docs/0.7/reference/opensocial.DataRequest.html
     req.add(
@@ -40,11 +40,11 @@ function loadViewer() {
         VIEWER
         );
     req.send(onLoadViewer);
-    STATUS.createTimerMessage("Request for your data sent...", 2);
+    STATUS.createTimerMessage("Request for your data sent...", 3);
 }
 
 function onLoadViewer(data) {
-    STATUS.createTimerMessage("Your data request has returned.", 2);
+    STATUS.createTimerMessage("Your data returned.", 3);
 // http://code.google.com/apis/opensocial/docs/0.7/reference/opensocial.Person.html
     var viewer = data.get(VIEWER).getData();
     var display_name = viewer.getDisplayName();
