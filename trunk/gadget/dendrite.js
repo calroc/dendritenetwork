@@ -6,10 +6,8 @@ var FETCH_TEXT = {};
 FETCH_TEXT[gadgets.io.RequestParameters.CONTENT_TYPE] = 
            gadgets.io.ContentType.TEXT;
            
-
 var STATUS = new gadgets.MiniMessage("dendrite");
 
-           
 function tell(el, message) {
     document.getElementById(el).innerHTML = message;
 }
@@ -48,7 +46,7 @@ function onLoadViewer(data) {
 // http://code.google.com/apis/opensocial/docs/0.7/reference/opensocial.Person.html
     var viewer = data.get(VIEWER).getData();
     var display_name = viewer.getDisplayName();
-    tell("user_display_name", "Hello " + display_name);
+    tell("user_display_name", "Hello " + display_name + " " + opensocial.getEnvironment().getDomain());
     loadCards(viewer.getId(), display_name);
 
 //    var emails = viewer.getField(opensocial.Person.Field.EMAILS)
