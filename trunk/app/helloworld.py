@@ -16,6 +16,14 @@ from models import (
 dbGet = lambda key: db.get(db.Key(key))
 
 
+def getDendriteNode(uid):
+    if uid is None: return
+    uid = int(uid)
+    q = DendriteNode.all().filter('uid =', uid)
+    r = q.fetch(1)
+    return (r and r[0]) or None
+
+
 class GameSeedHandler(webapp.RequestHandler):
 
     _seedCreationForm = '''
@@ -35,7 +43,7 @@ class GameSeedHandler(webapp.RequestHandler):
 
     def post(self):
         gs = GameSeed(
-            originator = users.User(self.request.get('email')),
+            originator = getDendriteNode(self.request.get('uid')),
             name = self.request.get('name'),
             URL = self.request.get('URL'),
             )
@@ -65,8 +73,8 @@ class CardHandler(webapp.RequestHandler):
       %s
       Send this GameSeed.
       <form action="/createcard/%s" method="post">
-        Your email address:<input type="text" name="sender"><br>
-        Send to email:<input type="text" name="recipient"><br>
+        Your uid:<input type="text" name="sender"><br>
+        Send to uid:<input type="text" name="recipient"><br>
         <input type="submit" value="Send card to:">
       </form>
     </body>
@@ -80,8 +88,8 @@ class CardHandler(webapp.RequestHandler):
 
         card = Card(
             gameseed = gs,
-            sender = users.User(self.request.get('sender')),
-            recipient = users.User(self.request.get('recipient')),
+            sender = getDendriteNode(self.request.get('sender')),
+            recipient = getDendriteNode(self.request.get('recipient')),
             )
         card.put()
 
@@ -131,11 +139,11 @@ class CardListerHandler(webapp.RequestHandler):
     def listCards(self):
         w = self.response.out.write
         w('<html><body>')
+
         recipient = self.request.get("iam")
-        w(repr(recipient))
         if recipient:
-            recipient = users.User(recipient)
-        w(repr(recipient))
+            recipient = getDendriteNode(recipient)
+            w(repr(recipient))
 
         q = Card.all().filter('seen =', False)
         if recipient:
