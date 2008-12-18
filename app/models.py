@@ -2,8 +2,14 @@ from cgi import escape
 from google.appengine.ext import db
 
 
+class DendriteNode(db.Model):
+    domain = db.StringProperty(default="google.com")
+    uid = db.IntegerProperty(required=True)
+    joined = db.DateTimeProperty(auto_now_add=True)
+
+
 class GameSeed(db.Model):
-    originator = db.UserProperty(required=True)
+    originator = db.ReferenceProperty(DendriteNode, required=True)
     name = db.StringProperty(required=True)
     URL = db.LinkProperty(required=True)
     creation_time = db.DateTimeProperty(auto_now_add=True)
@@ -11,8 +17,8 @@ class GameSeed(db.Model):
 
 class Card(db.Model):
     gameseed = db.ReferenceProperty(GameSeed, required=True)
-    sender = db.UserProperty(required=True)
-    recipient = db.UserProperty(required=True)
+    sender = db.ReferenceProperty(DendriteNode, required=True)
+    recipient = db.ReferenceProperty(DendriteNode, required=True)
     seen = db.BooleanProperty(default=False)
     creation_time = db.DateTimeProperty(auto_now_add=True)
 
