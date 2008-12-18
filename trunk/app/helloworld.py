@@ -3,6 +3,7 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext import db
 from google.appengine.api import users
 from models import (
+    DendriteNode,
     GameSeed,
     Card,
     gameSeedFragment,
@@ -19,7 +20,7 @@ class GameSeedHandler(webapp.RequestHandler):
 
     _seedCreationForm = '''
   <form action="/creategameseed" method="post">
-    Your email:<input type="text" name="email"><br>
+    Your UID:<input type="text" name="uid"><br>
     GameSeed Name:<input type="text" name="name"><br>
     GameSeed URL:<input type="text" name="URL" size=128><br>
     <input type="submit" value="Create new GameSeed">
