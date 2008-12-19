@@ -100,7 +100,7 @@ class CardHandler(webapp.RequestHandler):
             return
 
         # Send a form for creating a card.
-        self.response.out.write("""
+        self.response.out.write('''
   <html>
     <body>
       %s
@@ -111,7 +111,7 @@ class CardHandler(webapp.RequestHandler):
         <input type="submit" value="Send card to:">
       </form>
     </body>
-  </html>""" % (gameSeedFragment(gs), gameseed))
+  </html>''' % (gameSeedFragment(gs), gameseed))
 
     def post(self, gameseed):
 
@@ -149,7 +149,7 @@ class GameSeedListerHandler(webapp.RequestHandler):
             return
 
         self.response.out.write(
-            """<html><body>%s</body></html>""" % gameSeedFragment(gs, True)
+            '<html><body>%s</body></html>' % gameSeedFragment(gs, True)
             )
 
     def listGameSeeds(self):
@@ -174,14 +174,14 @@ class CardListerHandler(webapp.RequestHandler):
             return
 
         self.response.out.write(
-            "<html><body>%s</body></html>" % cardFragment(card)
+            '<html><body>%s</body></html>' % cardFragment(card)
             )
 
     def listCards(self):
         w = self.response.out.write
         w('<html><body>')
 
-        recipient = self.request.get("iam")
+        recipient = self.request.get('iam')
         if recipient:
             recipient = getDendriteNode(recipient)
             w(repr(recipient))
@@ -215,7 +215,7 @@ def main():
     run_wsgi_app(application)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
 
 
