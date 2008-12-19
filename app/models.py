@@ -17,8 +17,16 @@ class GameSeed(db.Model):
 
 class Card(db.Model):
     gameseed = db.ReferenceProperty(GameSeed, required=True)
-    sender = db.ReferenceProperty(DendriteNode, required=True)
-    recipient = db.ReferenceProperty(DendriteNode, required=True)
+    sender = db.ReferenceProperty(
+        DendriteNode,
+        required=True,
+        collection_name='sender_set',
+        )
+    recipient = db.ReferenceProperty(
+        DendriteNode,
+        required=True,
+        collection_name='recipient_set',
+        )
     seen = db.BooleanProperty(default=False)
     creation_time = db.DateTimeProperty(auto_now_add=True)
 
