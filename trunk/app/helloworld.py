@@ -1,3 +1,6 @@
+'''
+This is a basic prototype of the Dendrite Network system.
+'''
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext import db
@@ -14,9 +17,14 @@ from models import (
 
 
 dbGet = lambda key: db.get(db.Key(key))
+# Given a db key, dig out its data from the db.
 
 
 def getDendriteNode(uid):
+    '''
+    Given a UID return that user's DendriteNode or None if there's no
+    such DN in the db.
+    '''
     if uid is None: return
     uid = int(uid)
     q = DendriteNode.all().filter('uid =', uid)
@@ -25,48 +33,73 @@ def getDendriteNode(uid):
 
 
 class GameSeedHandler(webapp.RequestHandler):
+    '''
+    Handles creation of GameSeed objects.
 
-    _seedCreationForm = '''
-  <form action="/creategameseed" method="post">
-    Your UID:<input type="text" name="uid"><br>
-    GameSeed Name:<input type="text" name="name"><br>
-    GameSeed URL:<input type="text" name="URL" size=128><br>
-    <input type="submit" value="Create new GameSeed">
-  </form>
-'''
+    GET returns a form for creating a new GameSeed, and POST handles
+    receiving the results of that form.
+    '''
+
+    _seedCreationForm = '''\
+<form action="/creategameseed" method="post">
+  Your UID:<input type="text" name="uid"><br>
+  GameSeed Name:<input type="text" name="name"><br>
+  GameSeed URL:<input type="text" name="URL" size=128><br>
+  <input type="submit" value="Create new GameSeed">
+</form>'''
 
     def get(self):
-        self.response.out.write("""
-<html>
-<body>%s</body>
-</html>""" % self._seedCreationForm)
+        self.response.out.write(
+            '<html><body>%s</body></html>' % self._seedCreationForm
+            )
 
     def post(self):
+
+        # Create the GameSeed.
         gs = GameSeed(
             originator = getDendriteNode(self.request.get('uid')),
             name = self.request.get('name'),
             URL = self.request.get('URL'),
             )
         gs.put()
+
+        # Send back a simple acknowledgement page with the creation form.
         w = self.response.out.write
-        w('<html><body>You created: %s' % gameSeedFragment(gs))
-        w('''Use this link to send it to friends and contacts:
-<a href=/createcard/%(URL)s>http://1.latest.xerblin.appspot.com/createcard/%(URL)s</a><hr>
-Or create another GameSeed:<br>
-''' % {'URL': str(gs.key())}
-                                )
+        w('<html><body>You created: %(fragment)s\n'
+          'Use this link to send it to friends and contacts: '
+
+          '<a href=/createcard/%(URL)s>'
+          'http://1.latest.xerblin.appspot.com/createcard/%(URL)s'
+          '</a>'
+
+          '<hr>'
+
+          'Or create another GameSeed:<br>' % dict(
+              URL=str(gs.key()),
+              fragment=gameSeedFragment(gs),
+              )
+          )
         w(self._seedCreationForm)
         w('</body></html>')
 
 
 class CardHandler(webapp.RequestHandler):
+    '''
+    Handles creation of Cards for GameSeeds
+
+    GET takes a GameSeed key and returns a form for creating a card.
+    POST handles that form.
+    '''
 
     def get(self, gameseed):
+
+        # Check that this key exists.
         gs = dbGet(gameseed)
         if not gs:
             self.error(404)
             return
 
+        # Send a form for creating a card.
         self.response.out.write("""
   <html>
     <body>
@@ -81,11 +114,14 @@ class CardHandler(webapp.RequestHandler):
   </html>""" % (gameSeedFragment(gs), gameseed))
 
     def post(self, gameseed):
+
+        # Get the GameSeed.
         gs = dbGet(gameseed)
         if not gs:
             self.error(404)
             return
 
+        # Create the card.
         card = Card(
             gameseed = gs,
             sender = getDendriteNode(self.request.get('sender')),
@@ -93,6 +129,7 @@ class CardHandler(webapp.RequestHandler):
             )
         card.put()
 
+        # Send a simple acknowledgement page.
         w = self.response.out.write
         w('<html><body>You created:')
         w(cardFragment(card))
@@ -105,10 +142,12 @@ class GameSeedListerHandler(webapp.RequestHandler):
         if not gameseed:
             self.listGameSeeds()
             return
+
         gs = dbGet(gameseed)
         if not gs:
             self.error(404)
             return
+
         self.response.out.write(
             """<html><body>%s</body></html>""" % gameSeedFragment(gs, True)
             )
@@ -128,10 +167,12 @@ class CardListerHandler(webapp.RequestHandler):
         if not card:
             self.listCards()
             return
+
         card = dbGet(card)
         if not card:
             self.error(404)
             return
+
         self.response.out.write(
             "<html><body>%s</body></html>" % cardFragment(card)
             )
