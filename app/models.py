@@ -20,12 +20,12 @@ class Card(db.Model):
     sender = db.ReferenceProperty(
         DendriteNode,
         required=True,
-        collection_name='sender_set',
+        collection_name='sent_cards',
         )
     recipient = db.ReferenceProperty(
         DendriteNode,
         required=True,
-        collection_name='recipient_set',
+        collection_name='received_cards',
         )
     seen = db.BooleanProperty(default=False)
     creation_time = db.DateTimeProperty(auto_now_add=True)
@@ -40,7 +40,7 @@ def gameSeedFragment(gameseed, send=''):
 Created by %(originator)s, <a href=%(URL)s>link</a>
 </div>
 ''') % dict(
-    originator = gameseed.originator.nickname(),
+    originator = gameseed.originator.uid,
     send = send,
     name = escape(gameseed.name),
     URL = gameseed.URL,
@@ -56,7 +56,7 @@ Created by %(originator)s, <a href=%(URL)s>view gameseed's webpage</a>
 ''') % dict(
     name = escape(gameseed.name),
     gameseed_URL = str(gameseed.key()),
-    originator = gameseed.originator.nickname(),
+    originator = gameseed.originator.uid,
     URL = gameseed.URL,
     )
 
@@ -67,8 +67,8 @@ def cardFragment(card):
 from %(sender)s, to %(recipient)s, %(seen)s
 </div>
 ''') % dict(
-    sender = card.sender.nickname(),
-    recipient = card.recipient.nickname(),
+    sender = card.sender.uid,
+    recipient = card.recipient.uid,
     seen = ('unseen', 'seen')[card.seen],
     gameseed_name = card.gameseed.name,
     gameseed_URL = str(card.gameseed.key()),
@@ -85,8 +85,8 @@ from %(sender)s, to %(recipient)s, %(seen)s
     card_URL = str(card.key()),
     gameseed_name = escape(card.gameseed.name),
     gameseed_URL = str(card.gameseed.key()),
-    sender = card.sender.nickname(),
-    recipient = card.recipient.nickname(),
+    sender = card.sender.uid,
+    recipient = card.recipient.uid,
     seen = ('unseen', 'seen')[card.seen],
     )
 
@@ -101,8 +101,8 @@ from %(sender)s, to %(recipient)s, %(seen)s
 ##    card_URL = str(card.key()),
 ##    gameseed_name = escape(card.gameseed.name),
 ##    gameseed_URL = str(card.gameseed.key()),
-##    sender = card.sender.nickname(),
-##    recipient = card.recipient.nickname(),
+##    sender = card.sender.uid
+##    recipient = card.recipient.uid,
 ##    seen = ('unseen', 'seen')[card.seen],
 ##    )
 
