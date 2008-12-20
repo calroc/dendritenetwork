@@ -91,6 +91,41 @@ from %(sender)s, to %(recipient)s, %(seen)s
     )
 
 
+def cardUse(card):
+    return (
+        '<div>'
+        '<em>'
+            '<a href=/gameseed/%(gameseed_URL)s>'
+            '%(gameseed_name)s'
+            '</a>'
+        '</em> '
+        'from %(sender)s, '
+
+        '('
+        '<input type="radio" name="%(card_URL)s_act" value="forward">'
+        'Forward '
+        '<input type="radio" name="%(card_URL)s_act" value="activate">'
+        'and Accept) '
+        '<input type="radio" name="%(card_URL)s_act" value="reject">'
+        'Reject '
+
+#            '<a href=/markseen/%(card_URL)s>'
+#            '[mark seen]'
+#            '</a> '
+
+#            '<a href=/reject/%(card_URL)s>'
+#            '[reject]'
+#            '</a> '
+
+        '</div>'
+        ) % dict(
+            card_URL = str(card.key()),
+            sender = card.sender.uid,
+            gameseed_name = card.gameseed.name,
+            gameseed_URL = str(card.gameseed.key()),
+            )
+
+
 ##def cardOneLiner(card):
 ##    return ('''<div><em><a href=/card/%(card_URL)s>'''
 ##            '''Card: %(card_URL)s</a></em> for

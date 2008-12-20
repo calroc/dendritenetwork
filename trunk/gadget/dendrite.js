@@ -14,7 +14,7 @@ function tell(el, message) {
 
 function loadCards(vid, display_name) {
     STATUS.createTimerMessage("Retrieving your cards...", 3);
-    var url = BASE_URL + "/cards";
+    var url = BASE_URL + "/getcards/" + vid;
     // Put in args, there must be a function for this already
     gadgets.io.makeRequest(
         url,
@@ -47,7 +47,7 @@ function onLoadViewer(data) {
     var viewer = data.get(VIEWER).getData();
     var display_name = viewer.getDisplayName();
     tell("user_display_name", "Hello " + display_name + " " + opensocial.getEnvironment().getDomain());
-    loadCards(viewer.getId(), display_name);
+    loadCards(33 /* viewer.getId() */, display_name);
 
 //    var emails = viewer.getField(opensocial.Person.Field.EMAILS)
 //    document.getElementById("email").innerHTML = emails;
