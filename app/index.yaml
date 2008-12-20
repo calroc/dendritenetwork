@@ -23,7 +23,7 @@ indexes:
   - name: creation_time
     direction: desc
 
-# Used 5 times in query history.
+# Used 17 times in query history.
 - kind: Card
   properties:
   - name: recipient
@@ -31,14 +31,14 @@ indexes:
   - name: creation_time
     direction: desc
 
-# Used 6 times in query history.
+# Used 7 times in query history.
 - kind: Card
   properties:
   - name: seen
   - name: creation_time
     direction: desc
 
-# Used 3 times in query history.
+# Used 4 times in query history.
 - kind: GameSeed
   properties:
   - name: creation_time

@@ -26,7 +26,7 @@ function tell(el, message) {
 
 function loadCards(vid, display_name) {
     STATUS.createTimerMessage("Retrieving your cards...", 3);
-    var url = BASE_URL + "/cards";
+    var url = BASE_URL + "/cards?iam=" + vid;
     // Put in args, there must be a function for this already
     gadgets.io.makeRequest(
         url,

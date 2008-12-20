@@ -13,6 +13,7 @@ from models import (
     gameSeedOneLiner,
     cardFragment,
     cardOneLiner,
+    cardUse,
     )
 
 
@@ -184,22 +185,78 @@ class CardListerHandler(webapp.RequestHandler):
         recipient = self.request.get('iam')
         if recipient:
             recipient = getDendriteNode(recipient)
-            w(repr(recipient))
+            #w(repr(recipient))
 
         q = Card.all().filter('seen =', False)
         if recipient:
             q = q.filter('recipient =', recipient)
+            f = cardUse
+        else:
+            f = cardOneLiner
         q = q.order('-creation_time')
 
         cards = q.fetch(20)
         for card in cards:
-            w(cardOneLiner(card))
+            w(f(card))
+        w('</body></html>')
+
+
+class ReviewMyCardsHandler(webapp.RequestHandler):
+    '''
+    Show me my unseen cards and allow me to choose what to do with them.
+    '''
+
+    def get(self, uid=None):
+
+        d = getDendriteNode(uid)
+
+        if not d:
+            self.error(404)
+            return
+
+        q = (
+            Card.all()
+            .filter('seen =', False)
+            .filter('recipient =', d)
+            .order('-creation_time')
+            .fetch(20)
+            )
+
+        if q:
+            self.response.out.write(
+    '<html><body>'
+        '<form action="/trigger" method="post">'
+            '%(cards)s'
+        '<input type="hidden" name="uid" value="%(uid)s" />'
+        '<input type="submit" value="Go!">'
+        '</form>'
+    '</body></html>'
+            %
+    dict(
+        cards = ''.join(cardUse(card) for card in q),
+        uid = uid,
+        )
+            )
+
+    def post(self):
+        w = self.response.out.write
+        w('<html><body>')
+
+        for arg in self.request.arguments():
+            value = self.request.get(arg)
+            w(arg + ' => ' + value + '<br>')
+
         w('</body></html>')
 
 
 application = webapp.WSGIApplication(
     [
         ('/', GameSeedHandler),
+
+        ('/getcards/(.*)', ReviewMyCardsHandler),
+        ('/trigger', ReviewMyCardsHandler),
+
+
         ('/creategameseed', GameSeedHandler),
         ('/createcard/(.*)', CardHandler),
         ('/gameseed/(.*)', GameSeedListerHandler),
